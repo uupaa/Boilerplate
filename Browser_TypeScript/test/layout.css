@@ -1,0 +1,15 @@
+.app_grid {
+  display: grid;
+  grid-template:
+    "AREA-MENU AREA-MISC   AREA-VLIST" 35px
+    "AREA-LIST AREA-STVIEW AREA-VIDEO" 270px
+    "AREA-LIST AREA-STVIEW AREA-MAP"   1fr /
+    180px 1fr 480px;
+}
+.app_grid .app_grid_menu   { grid-area: AREA-MENU; }
+.app_grid .app_grid_misc   { grid-area: AREA-MISC; }
+.app_grid .app_grid_vlist  { grid-area: AREA-VLIST; }
+.app_grid .app_grid_video  { grid-area: AREA-VIDEO; }
+.app_grid .app_grid_list   { grid-area: AREA-LIST; }
+.app_grid .app_grid_stview { grid-area: AREA-STVIEW; }
+.app_grid .app_grid_map    { grid-area: AREA-MAP; }

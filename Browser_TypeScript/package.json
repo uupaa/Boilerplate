@@ -1,0 +1,81 @@
+{
+  "name": "fixme",
+  "version": "0.0.0",
+  "description": "A boilerplate for Browser and TypeScript project",
+  "keywords": [
+    "TypeScript"
+  ],
+  "main": "lib/FixMe.js",
+  "types": "lib/FixMe.d.ts",
+  "rollup": {
+    "esm": {
+      "input": "lib/FixMe.js",
+      "output": "lib/FixMe.esm.js"
+    },
+    "es5": {
+      "input": "lib/FixMe.js",
+      "output": "lib/FixMe.es5.js",
+      "name": "FixMeLib"
+    },
+    "cjs": {
+      "input": "lib/FixMe.js",
+      "output": "lib/FixMe.cjs.js"
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "npm run build; npm run bundle:all",
+
+    "build": "npm run build:esm",
+    "build:esm": "tsc --build tsconfig.json",
+    "bundle": "npm run bundle:esm",
+    "bundle:esm": "rollup -c .rollup.esm.js",
+    "bundle:es5": "rollup -c .rollup.es5.js",
+    "bundle:cjs": "rollup -c .rollup.cjs.js",
+    "bundle:all": "npm run bundle:esm; npm run bundle:es5; npm run bundle:cjs",
+    "watch": "rollup -w -c .rollup.esm.js &",
+    "test": "npm run test:cjs",
+    "test:esm": "open https://localhost/FixMe/test/esm.html",
+    "test:es5": "open https://localhost/FixMe/test/es5.html",
+    "test:cjs": "node test/cjs.js",
+    "test:all": "npm run test:cjs; npm run test:es5; npm run test:esm",
+    "update": "ncu -u; npm i",
+
+    "dev-server:start": "sudo nginx",
+    "dev-server:stop": "sudo nginx -s stop",
+    "dev-server:init": "npm run :nginx:create:keys; npm run :nginx:fix:location; npm run :nginx:apply.setting",
+    "dev-server:clean": "npm run :nginx:clear.setting",
+    ":nginx:create:keys": "cd conf; openssl genrsa -out nginx.server.key 2048 && openssl req -new -key nginx.server.key -out nginx.server.csr -subj \"/C=JP/ST=Tokyo/L=Tokyo/CN=localhost\" && openssl x509 -in nginx.server.csr -days 3650 -req -signkey nginx.server.key > nginx.server.crt",
+    ":nginx:fix:location": "cp conf/nginx.conf.org conf/nginx.conf; grep -l 'PWD' conf/nginx.conf | xargs sed -i -e \"s|PWD|`pwd`|g\"",
+    ":nginx:apply.setting": "mv conf/nginx.server.* /usr/local/etc/nginx/; mv conf/nginx.conf /usr/local/etc/nginx/nginx.conf",
+    ":nginx:clear.setting": "rm -f /usr/local/etc/nginx/nginx.conf; rm -f /usr/local/etc/nginx/nginx.server.*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/{OWNER}/{FixMe}.git"
+  },
+  "author": "{OWNER}@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/{OWNER}/{FixMe}/issues"
+  },
+  "homepage": "https://github.com/{OWNER}/{FixMe}#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "eslint": "^6.6.0",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.26.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-cleanup": "^3.1.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-license": "^0.12.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-watch": "^4.3.1"
+  },
+  "unused_devDependencies": {
+    "request": "",
+    "execa": "^0.10.0"
+  }
+}
